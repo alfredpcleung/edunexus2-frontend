@@ -24,7 +24,9 @@ export default function UserForm() {
     e.preventDefault();
     try {
       if (id) {
-        await updateUser(id, form);
+        // When updating, don't send empty password field
+        const { password, ...updateData } = form;
+        await updateUser(id, updateData);
       } else {
         await createUser(form);
       }
