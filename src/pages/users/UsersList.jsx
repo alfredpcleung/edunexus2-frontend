@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUsers, deleteUser } from '../../api/users';
+import '../lists.css';
 
 export default function UsersList() {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +23,13 @@ export default function UsersList() {
   }, []);
 
   const onDelete = async (id) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage users.');
+      navigate('/login');
+      return;
+    }
+
     if (!confirm("Delete this user?")) return;
     try {
       await deleteUser(id);
@@ -31,36 +40,95 @@ export default function UsersList() {
     }
   };
 
+  const handleNewClick = () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage users.');
+      navigate('/login');
+      return;
+    }
+    navigate('/users/new');
+  };
+
+  const handleEditClick = (id) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage users.');
+      navigate('/login');
+      return;
+    }
+    navigate(`/users/${id}`);
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>Users</h2>
-      <Link to="/users/new">+ New User</Link>
-      {items.length === 0 ? (
-        <p>No users found.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ marginTop: 12 }}>
-          <thead>
-            <tr>
-              <th>First Name</th><th>Last Name</th><th>Email</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((u) => (
-              <tr key={u._id}>
-                <td>{u.firstname}</td>
-                <td>{u.lastname}</td>
-                <td>{u.email}</td>
-                <td>
-                  <Link to={`/users/${u._id}`} style={{ marginRight: 8 }}>Edit</Link>
-                  <button onClick={() => onDelete(u._id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div className="users-page">
+      <div className="container">
+        <div className="page-header">
+          <div>
+            <h2>Users</h2>
+            <p className="text-muted">Manage your user information</p>
+          </div>
+          <button 
+            onClick={handleNewClick}
+            className="btn btn-primary"
+          >
+            + New User
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : items.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">👥</div>
+            <p>No users found.</p>
+            <button 
+              onClick={handleNewClick}
+              className="btn btn-primary"
+            >
+              Create First User
+            </button>
+          </div>
+        ) : (
+          <div className="table-container card">
+            <table>
+              <thead>
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((u) => (
+                  <tr key={u._id}>
+                    <td>{u.firstname}</td>
+                    <td>{u.lastname}</td>
+                    <td>{u.email}</td>
+                    <td>
+                      <button 
+                        onClick={() => handleEditClick(u._id)}
+                        className="btn btn-sm btn-secondary"
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        onClick={() => onDelete(u._id)}
+                        className="btn btn-sm btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

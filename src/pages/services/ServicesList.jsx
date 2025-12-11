@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getServices, deleteService } from '../../api/services';
+import '../lists.css';
 
 export default function ServicesList() {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +23,13 @@ export default function ServicesList() {
   }, []);
 
   const onDelete = async (id) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage services.');
+      navigate('/login');
+      return;
+    }
+
     if (!confirm("Delete this service?")) return;
     try {
       await deleteService(id);
@@ -31,35 +40,93 @@ export default function ServicesList() {
     }
   };
 
+  const handleNewClick = () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage services.');
+      navigate('/login');
+      return;
+    }
+    navigate('/services/new');
+  };
+
+  const handleEditClick = (id) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage services.');
+      navigate('/login');
+      return;
+    }
+    navigate(`/services/${id}`);
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>Services</h2>
-      <Link to="/services/new">+ New Service</Link>
-      {items.length === 0 ? (
-        <p>No services found.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ marginTop: 12 }}>
-          <thead>
-            <tr>
-              <th>Title</th><th>Description</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((s) => (
-              <tr key={s._id}>
-                <td>{s.title}</td>
-                <td>{s.description}</td>
-                <td>
-                  <Link to={`/services/${s._id}`} style={{ marginRight: 8 }}>Edit</Link>
-                  <button onClick={() => onDelete(s._id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div className="services-page">
+      <div className="container">
+        <div className="page-header">
+          <div>
+            <h2>Services</h2>
+            <p className="text-muted">Manage your services</p>
+          </div>
+          <button 
+            onClick={handleNewClick}
+            className="btn btn-primary"
+          >
+            + New Service
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : items.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">🛠️</div>
+            <p>No services found.</p>
+            <button 
+              onClick={handleNewClick}
+              className="btn btn-primary"
+            >
+              Create First Service
+            </button>
+          </div>
+        ) : (
+          <div className="table-container card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((s) => (
+                  <tr key={s._id}>
+                    <td>{s.title}</td>
+                    <td>{s.description}</td>
+                    <td>
+                      <button 
+                        onClick={() => handleEditClick(s._id)}
+                        className="btn btn-sm btn-secondary"
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        onClick={() => onDelete(s._id)}
+                        className="btn btn-sm btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

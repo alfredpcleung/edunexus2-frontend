@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getService, createService, updateService } from '../../api/services';
+import '../forms.css';
 
 export default function ServiceForm() {
   const { id } = useParams();
@@ -19,6 +20,15 @@ export default function ServiceForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if user is authenticated
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Authentication required. Please sign in to manage services.');
+      navigate('/login');
+      return;
+    }
+    
     try {
       if (id) {
         await updateService(id, form);
@@ -28,30 +38,61 @@ export default function ServiceForm() {
       navigate('/services');
     } catch (error) {
       console.error('Failed to save service:', error);
-      alert("Save failed");
+      
+      // Check for authentication errors
+      if (error.response?.status === 401) {
+        alert('Authentication required. Please sign in to manage services.');
+      } else if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert('Failed to save service. Please try again.');
+      }
     }
   };
 
   return (
-    <div>
-      <h2>{id ? 'Edit Service' : 'New Service'}</h2>
-      <form onSubmit={onSubmit} style={{ display: 'grid', gap: 12, maxWidth: 400 }}>
-        <input
-          name="title"
-          value={form.title}
-          onChange={onChange}
-          placeholder="Title"
-          required
-        />
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={onChange}
-          placeholder="Description"
-          required
-        />
-        <button type="submit">Save</button>
-      </form>
+    <div className="form-page">
+      <div className="container">
+        <div className="form-wrapper">
+          <h2>{id ? 'Edit Service' : 'New Service'}</h2>
+          <form onSubmit={onSubmit} className="form">
+            <div className="form-group">
+              <label>Title *</label>
+              <input
+                name="title"
+                value={form.title}
+                onChange={onChange}
+                placeholder="Enter service title"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Description *</label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={onChange}
+                placeholder="Enter service description"
+                required
+              />
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="btn btn-primary">
+                {id ? 'Update Service' : 'Create Service'}
+              </button>
+              <button 
+                type="button" 
+                onClick={() => navigate('/services')}
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

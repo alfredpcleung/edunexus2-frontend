@@ -1,0 +1,139 @@
+/* Lists Page Styles */
+.contacts-page,
+.users-page,
+.projects-page,
+.services-page {
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 70px);
+  background-color: var(--light-bg);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-header h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.page-header p {
+  margin: 0.5rem 0 0 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+  border: 2px dashed var(--border-color);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Actions Column Styling for All List Pages */
+.contacts-page table,
+.users-page table,
+.projects-page table,
+.services-page table {
+  table-layout: auto;
+  width: 100%;
+}
+
+/* Fixed width Actions column - consistent across all pages */
+.contacts-page table th:last-child,
+.contacts-page table td:last-child,
+.users-page table th:last-child,
+.users-page table td:last-child,
+.projects-page table th:last-child,
+.projects-page table td:last-child,
+.services-page table th:last-child,
+.services-page table td:last-child {
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  white-space: nowrap;
+}
+
+/* Style action buttons for compact display */
+.contacts-page table td:last-child .btn,
+.users-page table td:last-child .btn,
+.projects-page table td:last-child .btn,
+.services-page table td:last-child .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+/* Narrow description columns for projects and services */
+.projects-page table td:nth-child(2),
+.services-page table td:nth-child(2) {
+  word-break: break-word;
+}
+
+/* Contacts and Users Pages - Equal width columns (excluding actions) */
+.contacts-page table th:nth-child(1),
+.contacts-page table td:nth-child(1),
+.contacts-page table th:nth-child(2),
+.contacts-page table td:nth-child(2),
+.contacts-page table th:nth-child(3),
+.contacts-page table td:nth-child(3),
+.users-page table th:nth-child(1),
+.users-page table td:nth-child(1),
+.users-page table th:nth-child(2),
+.users-page table td:nth-child(2),
+.users-page table th:nth-child(3),
+.users-page table td:nth-child(3) {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .page-header .btn {
+    width: 100%;
+  }
+
+  .table-container {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
+  }
+}
