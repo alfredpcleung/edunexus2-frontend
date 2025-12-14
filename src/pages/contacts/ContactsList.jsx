@@ -67,14 +67,14 @@ export default function ContactsList() {
       <div className="container">
         <div className="page-header">
           <div>
-            <h2>Contacts</h2>
-            <p className="text-muted">Manage your contact information</p>
+            <h2>Peer Feedback</h2>
+            <p className="text-muted">View and manage peer feedback</p>
           </div>
           <button 
             onClick={handleNewClick}
             className="btn btn-primary"
           >
-            + New Contact
+            + New Feedback
           </button>
         </div>
 
@@ -83,12 +83,12 @@ export default function ContactsList() {
         ) : items.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">📋</div>
-            <p>No contacts found.</p>
+            <p>No feedback found.</p>
             <button 
               onClick={handleNewClick}
               className="btn btn-primary"
             >
-              Create First Contact
+              Create First Feedback
             </button>
           </div>
         ) : (
@@ -96,18 +96,18 @@ export default function ContactsList() {
             <table>
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Review</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {items.map((c) => (
                   <tr key={c._id}>
-                    <td>{c.firstname}</td>
-                    <td>{c.lastname}</td>
-                    <td>{c.email}</td>
+                    <td>{c.title}</td>
+                    <td>{c.description}</td>
+                    <td>{c.review}</td>
                     <td>
                       <button 
                         onClick={() => handleEditClick(c._id)}

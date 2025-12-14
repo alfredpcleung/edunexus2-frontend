@@ -83,7 +83,7 @@ export default function UsersList() {
         ) : items.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">👥</div>
-            <p>No students found. Add your classmates or yourself to start building your EdNexus community!</p>
+            <p>No students found. Add your classmates or yourself to start building your EduNexus community!</p>
             <button 
               onClick={handleNewClick}
               className="btn btn-primary"

@@ -1,8 +1,26 @@
+
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getUsers } from '../api/users';
+import { getServices } from '../api/services';
+import { getProjects } from '../api/projects';
+import { getContacts } from '../api/contacts';
 import './Home.css';
 
 export default function Home() {
   const token = localStorage.getItem('authToken');
+  const [studentCount, setStudentCount] = useState(null);
+  const [courseCount, setCourseCount] = useState(null);
+  const [projectCount, setProjectCount] = useState(null);
+  const [feedbackCount, setFeedbackCount] = useState(null);
+
+  useEffect(() => {
+    getUsers().then(({ data }) => setStudentCount(data.length)).catch(() => setStudentCount(null));
+    getServices().then(({ data }) => setCourseCount(data.length)).catch(() => setCourseCount(null));
+    getProjects().then(({ data }) => setProjectCount(data.length)).catch(() => setProjectCount(null));
+    getContacts().then(({ data }) => setFeedbackCount(data.length)).catch(() => setFeedbackCount(null));
+  }, []);
+
   return (
     <div className="home">
             {/* Section 1: Welcome to EduNexus */}
@@ -43,19 +61,27 @@ export default function Home() {
               </p>
               <div style={{display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap'}}>
                 <div style={{background: 'linear-gradient(120deg, #6a85f1 0%, #b06ab3 100%)', color: '#fff', borderRadius: 20, padding: 32, width: 260, margin: 8, boxShadow: '0 2px 16px rgba(0,0,0,0.04)'}}>
-                  <div style={{fontSize: 48, marginBottom: 12}}><span role="img" aria-label="student">👤</span></div>
+                  <div style={{fontSize: 48, marginBottom: 12, fontWeight: 700}}>
+                    {studentCount === null ? '...' : studentCount}
+                  </div>
                   <h3 style={{fontWeight: 500, fontSize: 20, marginBottom: 8}}>Registered Students</h3>
                 </div>
                 <div style={{background: 'linear-gradient(120deg, #ff4081 0%, #ff7eb3 100%)', color: '#fff', borderRadius: 20, padding: 32, width: 260, margin: 8, boxShadow: '0 2px 16px rgba(0,0,0,0.04)'}}>
-                  <div style={{fontSize: 48, marginBottom: 12}}><span role="img" aria-label="star">⭐</span></div>
+                  <div style={{fontSize: 48, marginBottom: 12, fontWeight: 700}}>
+                    {courseCount === null ? '...' : courseCount}
+                  </div>
                   <h3 style={{fontWeight: 500, fontSize: 20, marginBottom: 8}}>Courses with Reviews</h3>
                 </div>
                 <div style={{background: 'linear-gradient(120deg, #00c48c 0%, #2de1fc 100%)', color: '#fff', borderRadius: 20, padding: 32, width: 260, margin: 8, boxShadow: '0 2px 16px rgba(0,0,0,0.04)'}}>
-                  <div style={{fontSize: 48, marginBottom: 12}}><span role="img" aria-label="active">🎓</span></div>
-                  <h3 style={{fontWeight: 500, fontSize: 20, marginBottom: 8}}>Active Students</h3>
+                  <div style={{fontSize: 48, marginBottom: 12, fontWeight: 700}}>
+                    {feedbackCount === null ? '...' : feedbackCount}
+                  </div>
+                  <h3 style={{fontWeight: 500, fontSize: 20, marginBottom: 8}}>Peer Feedbacks</h3>
                 </div>
                 <div style={{background: 'linear-gradient(120deg, #ffb300 0%, #ffda77 100%)', color: '#fff', borderRadius: 20, padding: 32, width: 260, margin: 8, boxShadow: '0 2px 16px rgba(0,0,0,0.04)'}}>
-                  <div style={{fontSize: 48, marginBottom: 12}}><span role="img" aria-label="briefcase">💼</span></div>
+                  <div style={{fontSize: 48, marginBottom: 12, fontWeight: 700}}>
+                    {projectCount === null ? '...' : projectCount}
+                  </div>
                   <h3 style={{fontWeight: 500, fontSize: 20, marginBottom: 8}}>Projects Recruiting</h3>
                 </div>
               </div>

@@ -6,7 +6,7 @@ import '../forms.css';
 export default function ContactForm() {
   const { id } = useParams(); // if editing, we get the contact id
   const navigate = useNavigate();
-  const [form, setForm] = useState({ firstname: '', lastname: '', email: '' });
+  const [form, setForm] = useState({ title: '', description: '', review: '' });
 
   // Load existing contact if editing
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function ContactForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Check if user is authenticated
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -29,7 +29,10 @@ export default function ContactForm() {
       navigate('/login');
       return;
     }
-    
+
+    // Debug: log form data before sending
+    console.log('Submitting peer feedback:', form);
+
     try {
       if (id) {
         await updateContact(id, form);
@@ -39,7 +42,7 @@ export default function ContactForm() {
       navigate('/contacts'); // go back to list
     } catch (error) {
       console.error('Failed to save contact:', error);
-      
+
       // Check for authentication errors
       if (error.response?.status === 401) {
         alert('Authentication required. Please sign in to manage contacts.');
@@ -55,45 +58,44 @@ export default function ContactForm() {
     <div className="form-page">
       <div className="container">
         <div className="form-wrapper">
-          <h2>{id ? 'Edit Contact' : 'New Contact'}</h2>
+          <h2>{id ? 'Edit Peer Feedback' : 'New Peer Feedback'}</h2>
           <form onSubmit={onSubmit} className="form">
             <div className="form-group">
-              <label>First Name *</label>
+              <label>Title *</label>
               <input
-                name="firstname"
-                value={form.firstname}
+                name="title"
+                value={form.title}
                 onChange={onChange}
-                placeholder="Enter first name"
+                placeholder="Enter feedback title"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>Last Name *</label>
+              <label>Description *</label>
               <input
-                name="lastname"
-                value={form.lastname}
+                name="description"
+                value={form.description}
                 onChange={onChange}
-                placeholder="Enter last name"
+                placeholder="Enter description"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>Email *</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
+              <label>Review *</label>
+              <textarea
+                name="review"
+                value={form.review}
                 onChange={onChange}
-                placeholder="Enter email address"
+                placeholder="Enter your review"
                 required
               />
             </div>
 
             <div className="form-actions">
               <button type="submit" className="btn btn-primary">
-                {id ? 'Update Contact' : 'Create Contact'}
+                {id ? 'Update Peer Feedback' : 'Create Peer Feedback'}
               </button>
               <button 
                 type="button" 
