@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import ContactsList from './pages/contacts/ContactsList';
 import ContactForm from './pages/contacts/ContactForm';
 import UsersList from './pages/users/UsersList';
@@ -20,6 +21,7 @@ export default function App() {
       <Routes>
         {/* Default route goes to home */}
         <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<SignUp />} />
@@ -40,7 +42,7 @@ export default function App() {
         <Route path="/projects/new" element={<ProjectForm />} />
         <Route path="/projects/:id" element={<ProjectForm />} />
 
-        {/* Services */}
+        {/* Courses */}
         <Route path="/services" element={<ServicesList />} />
         <Route path="/services/new" element={<ServiceForm />} />
         <Route path="/services/:id" element={<ServiceForm />} />

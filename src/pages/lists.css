@@ -2,7 +2,8 @@
 .contacts-page,
 .users-page,
 .projects-page,
-.services-page {
+.services-page,
+.courses-page {
   padding: 2rem 1rem;
   min-height: calc(100vh - 70px);
   background-color: var(--light-bg);
@@ -62,7 +63,8 @@
 .contacts-page table,
 .users-page table,
 .projects-page table,
-.services-page table {
+.services-page table,
+.courses-page table {
   table-layout: auto;
   width: 100%;
 }
@@ -75,7 +77,9 @@
 .projects-page table th:last-child,
 .projects-page table td:last-child,
 .services-page table th:last-child,
-.services-page table td:last-child {
+.services-page table td:last-child,
+.courses-page table th:last-child,
+.courses-page table td:last-child {
   width: 180px;
   min-width: 180px;
   max-width: 180px;
@@ -86,7 +90,8 @@
 .contacts-page table td:last-child .btn,
 .users-page table td:last-child .btn,
 .projects-page table td:last-child .btn,
-.services-page table td:last-child .btn {
+.services-page table td:last-child .btn,
+.courses-page table td:last-child .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -95,7 +100,8 @@
 
 /* Narrow description columns for projects and services */
 .projects-page table td:nth-child(2),
-.services-page table td:nth-child(2) {
+.services-page table td:nth-child(2),
+.courses-page table td:nth-child(2) {
   word-break: break-word;
 }
 

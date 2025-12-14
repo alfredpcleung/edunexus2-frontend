@@ -18,9 +18,16 @@ export default function Navigation() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-brand">
-          <img src="/logo.png" alt="Alfred Leung's Portfolio" className="logo-icon" />
-          Alfred Leung's Portfolio
+        <Link to="/" className="navbar-brand" style={{display: 'flex', alignItems: 'center', gap: 8}}>
+          <span style={{display: 'inline-flex', alignItems: 'center'}}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="6" width="10" height="20" rx="2" fill="#5b7cff"/>
+              <rect x="18" y="6" width="10" height="20" rx="2" fill="#b06ab3"/>
+              <rect x="7" y="9" width="4" height="14" rx="1" fill="#fff"/>
+              <rect x="21" y="9" width="4" height="14" rx="1" fill="#fff"/>
+            </svg>
+          </span>
+          <span>EduNexus</span>
         </Link>
 
         <button 
@@ -46,14 +53,21 @@ export default function Navigation() {
             className={`nav-link ${isActive('/contacts')}`}
             onClick={() => setIsOpen(false)}
           >
-            Contacts
+            Peer Feedback
           </Link>
           <Link 
             to="/users" 
             className={`nav-link ${isActive('/users')}`}
             onClick={() => setIsOpen(false)}
           >
-            Users
+            Students
+          </Link>
+          <Link 
+            to="/dashboard" 
+            className={`nav-link ${isActive('/dashboard')}`}
+            onClick={() => setIsOpen(false)}
+          >
+            Dashboard
           </Link>
           <Link 
             to="/projects" 
@@ -67,7 +81,7 @@ export default function Navigation() {
             className={`nav-link ${isActive('/services')}`}
             onClick={() => setIsOpen(false)}
           >
-            Services
+            Courses
           </Link>
 
           <div className="nav-divider"></div>

@@ -67,14 +67,14 @@ export default function UsersList() {
       <div className="container">
         <div className="page-header">
           <div>
-            <h2>Users</h2>
-            <p className="text-muted">Manage your user information</p>
+            <h2>Students</h2>
+            <p className="text-muted">Manage your student information</p>
           </div>
           <button 
             onClick={handleNewClick}
             className="btn btn-primary"
           >
-            + New User
+            + New Student
           </button>
         </div>
 
@@ -83,12 +83,12 @@ export default function UsersList() {
         ) : items.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">👥</div>
-            <p>No users found.</p>
+            <p>No students found. Add your classmates or yourself to start building your EdNexus community!</p>
             <button 
               onClick={handleNewClick}
               className="btn btn-primary"
             >
-              Create First User
+              Create First Student
             </button>
           </div>
         ) : (
@@ -99,6 +99,8 @@ export default function UsersList() {
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Email</th>
+                  <th>Major</th>
+                  <th>Year</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -108,6 +110,8 @@ export default function UsersList() {
                     <td>{u.firstname}</td>
                     <td>{u.lastname}</td>
                     <td>{u.email}</td>
+                    <td>{u.major || <span className="text-muted">N/A</span>}</td>
+                    <td>{u.year || <span className="text-muted">N/A</span>}</td>
                     <td>
                       <button 
                         onClick={() => handleEditClick(u._id)}

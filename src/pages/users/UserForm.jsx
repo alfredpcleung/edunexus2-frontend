@@ -6,13 +6,13 @@ import '../forms.css';
 export default function UserForm() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ firstname: '', lastname: '', email: '', password: '' });
+  const [form, setForm] = useState({ firstname: '', lastname: '', email: '', password: '', major: '', year: '' });
 
   useEffect(() => {
     if (id) {
       getUser(id).then(({ data }) => {
         // Don’t prefill password for security reasons
-        setForm({ firstname: data.firstname, lastname: data.lastname, email: data.email, password: '' });
+        setForm({ firstname: data.firstname, lastname: data.lastname, email: data.email, password: '', major: data.major || '', year: data.year || '' });
       });
     }
   }, [id]);
@@ -109,9 +109,29 @@ export default function UserForm() {
               </div>
             )}
 
+            <div className="form-group">
+              <label>Major</label>
+              <input
+                name="major"
+                value={form.major}
+                onChange={onChange}
+                placeholder="Enter major (optional)"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Year</label>
+              <input
+                name="year"
+                value={form.year}
+                onChange={onChange}
+                placeholder="Enter year (optional)"
+              />
+            </div>
+
             <div className="form-actions">
               <button type="submit" className="btn btn-primary">
-                {id ? 'Update User' : 'Create User'}
+                {id ? 'Update Student' : 'Create Student'}
               </button>
               <button 
                 type="button" 

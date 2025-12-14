@@ -14,7 +14,7 @@ export default function ServicesList() {
         const { data } = await getServices();
         setItems(data);
       } catch (err) {
-        console.error("Failed to load services", err);
+        console.error("Failed to load courses", err);
       } finally {
         setLoading(false);
       }
@@ -25,12 +25,12 @@ export default function ServicesList() {
   const onDelete = async (id) => {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      alert('Authentication required. Please sign in to manage services.');
+      alert('Authentication required. Please sign in to manage courses.');
       navigate('/login');
       return;
     }
 
-    if (!confirm("Delete this service?")) return;
+    if (!confirm("Delete this course?")) return;
     try {
       await deleteService(id);
       setItems((prev) => prev.filter((s) => s._id !== id));
@@ -43,7 +43,7 @@ export default function ServicesList() {
   const handleNewClick = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      alert('Authentication required. Please sign in to manage services.');
+      alert('Authentication required. Please sign in to manage courses.');
       navigate('/login');
       return;
     }
@@ -53,7 +53,7 @@ export default function ServicesList() {
   const handleEditClick = (id) => {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      alert('Authentication required. Please sign in to manage services.');
+      alert('Authentication required. Please sign in to manage courses.');
       navigate('/login');
       return;
     }
@@ -63,18 +63,18 @@ export default function ServicesList() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="services-page">
+    <div className="courses-page">
       <div className="container">
         <div className="page-header">
           <div>
-            <h2>Services</h2>
-            <p className="text-muted">Manage your services</p>
+            <h2>Courses</h2>
+            <p className="text-muted">Manage your courses</p>
           </div>
           <button 
             onClick={handleNewClick}
             className="btn btn-primary"
           >
-            + New Service
+            + New Course
           </button>
         </div>
 
@@ -83,12 +83,12 @@ export default function ServicesList() {
         ) : items.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🛠️</div>
-            <p>No services found.</p>
+            <p>No courses found. Start by adding your first course to review and track your academic journey!</p>
             <button 
               onClick={handleNewClick}
               className="btn btn-primary"
             >
-              Create First Service
+              Create First Course
             </button>
           </div>
         ) : (
@@ -98,6 +98,7 @@ export default function ServicesList() {
                 <tr>
                   <th>Title</th>
                   <th>Description</th>
+                  <th>Review</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -106,6 +107,7 @@ export default function ServicesList() {
                   <tr key={s._id}>
                     <td>{s.title}</td>
                     <td>{s.description}</td>
+                    <td>{s.review || <span className="text-muted">No review</span>}</td>
                     <td>
                       <button 
                         onClick={() => handleEditClick(s._id)}

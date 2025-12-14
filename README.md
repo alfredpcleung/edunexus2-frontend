@@ -1,16 +1,27 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# EdNexus
 
-Currently, two official plugins are available:
+EdNexus is a MERN-stack web application for students to showcase projects, review courses, and provide peer feedback—all in one place.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Student registration, login, and profile management (with major/year)
+- CRUD for student projects, courses (with reviews), and peer feedback
+- Secure access controls (only owners can edit their records)
+- Dashboard aggregating a student’s courses, projects, and reviews
+- Modern, responsive UI
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Quick Start
 
-## Expanding the ESLint configuration
+1. Install dependencies: `npm install`
+2. Start the dev server: `npm run dev`
+3. Connect to the backend API (see backend repo)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+- `src/` — React components, pages, and API logic
+- `public/` — Static assets (logo, favicon, etc.)
+
+## License
+
+MIT

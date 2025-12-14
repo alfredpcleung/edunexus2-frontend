@@ -6,11 +6,11 @@ import '../forms.css';
 export default function ServiceForm() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ title: '', description: '' });
+  const [form, setForm] = useState({ title: '', description: '', review: '' });
 
   useEffect(() => {
     if (id) {
-      getService(id).then(({ data }) => setForm(data));
+      getService(id).then(({ data }) => setForm({ ...data, review: data.review || '' }));
     }
   }, [id]);
 
@@ -24,7 +24,7 @@ export default function ServiceForm() {
     // Check if user is authenticated
     const token = localStorage.getItem('authToken');
     if (!token) {
-      alert('Authentication required. Please sign in to manage services.');
+      alert('Authentication required. Please sign in to manage courses.');
       navigate('/login');
       return;
     }
@@ -37,15 +37,15 @@ export default function ServiceForm() {
       }
       navigate('/services');
     } catch (error) {
-      console.error('Failed to save service:', error);
+      console.error('Failed to save course:', error);
       
       // Check for authentication errors
       if (error.response?.status === 401) {
-        alert('Authentication required. Please sign in to manage services.');
+        alert('Authentication required. Please sign in to manage courses.');
       } else if (error.response?.data?.message) {
         alert(error.response.data.message);
       } else {
-        alert('Failed to save service. Please try again.');
+        alert('Failed to save course. Please try again.');
       }
     }
   };
@@ -54,15 +54,16 @@ export default function ServiceForm() {
     <div className="form-page">
       <div className="container">
         <div className="form-wrapper">
-          <h2>{id ? 'Edit Service' : 'New Service'}</h2>
+          <h2>{id ? 'Edit Course' : 'New Course'}</h2>
           <form onSubmit={onSubmit} className="form">
+
             <div className="form-group">
               <label>Title *</label>
               <input
                 name="title"
                 value={form.title}
                 onChange={onChange}
-                placeholder="Enter service title"
+                placeholder="Enter course title"
                 required
               />
             </div>
@@ -73,14 +74,24 @@ export default function ServiceForm() {
                 name="description"
                 value={form.description}
                 onChange={onChange}
-                placeholder="Enter service description"
+                placeholder="Enter course description"
                 required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Course Review</label>
+              <textarea
+                name="review"
+                value={form.review}
+                onChange={onChange}
+                placeholder="Enter your review (optional)"
               />
             </div>
 
             <div className="form-actions">
               <button type="submit" className="btn btn-primary">
-                {id ? 'Update Service' : 'Create Service'}
+                {id ? 'Update Course' : 'Create Course'}
               </button>
               <button 
                 type="button" 
